@@ -1,0 +1,16 @@
+/.idea
+/.history
+/.vscode
+/.cache
+.tmp
+node_modules
+build
+.gqlconfig
+.expo
+*.log
+*.sqlite3
+.DS_Store
+jsconfig.json
+public
+.env
+*.iml
