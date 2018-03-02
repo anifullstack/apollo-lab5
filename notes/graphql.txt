@@ -1,0 +1,117 @@
+
+// get all students
+{
+  students(limit:7 , after:9){
+    edges {
+      node {
+        id
+        firstName
+        lastName
+        diarys {
+          id
+          subject
+          status
+          activity
+        }
+      }
+    },
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+  }
+}
+
+
+//query: get a students
+{
+  student(id:2){
+    id
+    firstName
+    lastName
+    diarys{
+      id
+      subject
+      activity
+      status
+      
+    }
+	}
+}
+
+//named query
+query firstStudent {
+  student(id:1){
+    firstName
+    lastName
+  }
+}
+
+//qury with alias. studentOne is alias
+query retrieveStudentById {
+  studentOne: student(id:1){
+    firstName
+    lastName
+  }
+}
+
+query retrieveStudentById {
+  studentOne: student(id:2){
+    id
+    firstName
+    lastName
+    diarys {
+      id
+      subject
+      activity
+    }
+  }
+}
+
+===============================mutations=================================
+
+mutation deleteStudent($id:Int!){
+  deleteStudent(id:$id) {
+    id
+  }
+}
+
+variable
+{
+"id":1
+}
+
+mutation addStudent($studentInfo: AddStudentInput!) {
+  addStudent(input : $studentInfo) {
+    id
+    firstName
+	lastName
+  }
+}
+
+{
+  "studentInfo": {
+    "firstName": "surbhi",
+    "lastName": "shimpi"
+    
+  }
+  
+}
+
+mutation addDiary($diaryInfo: AddDiaryInput! ){
+   addDiary(input : $diaryInfo) {
+    id
+    subject
+    activity
+    
+  }
+}
+
+{
+  "diaryInfo":  {
+   "studentId": 2,
+    "subject": "Practical Life",
+    "activity": "Dressing Frame Button v1"	
+  }
+  
+}

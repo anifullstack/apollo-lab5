@@ -67,9 +67,9 @@ export default class Student {
       });
   }
 
-  addDiary({ subject, activity, note, StudentId }) {
+  addDiary({ subject, activity, note, studentId }) {
     return knex("Diary")
-      .insert({ subject, activity, note, Student_id: StudentId })
+      .insert({ subject, activity, note, student_id: studentId })
       .returning("id");
   }
 
