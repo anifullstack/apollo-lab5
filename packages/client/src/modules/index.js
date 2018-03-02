@@ -1,3 +1,4 @@
+import diary from './diary';
 import counter from "./counter";
 import post from "./post";
 import upload from "./upload";
@@ -9,4 +10,4 @@ import "./favicon";
 
 import Feature from "./connector";
 
-export default new Feature(post, user);
+export default new Feature(diary, post, user);
