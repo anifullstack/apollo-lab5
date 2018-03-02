@@ -1,15 +1,18 @@
 # Student
 type Student {
   id: Int!
-  title: String!
-  content: String!
+  firstName: String!
+  lastName: String!
   diarys: [Diary]
 }
 
 # Diary
 type Diary {
   id: Int!
-  content: String!
+  subject: String!
+  activity: String!
+  status: String
+  note: String
 }
 
 # Edges for Students
@@ -55,20 +58,23 @@ extend type Mutation {
 
 # Input for addStudent Mutation
 input AddStudentInput {
-  title: String!
-  content: String!
+  firstName: String!
+  lastName: String!
 }
 
 # Input for editStudent Mutation
 input EditStudentInput {
   id: Int!
-  title: String!
-  content: String!
+  firstName: String!
+  lastName: String!
 }
 
 # Input for addDiary Mutation
 input AddDiaryInput {
-  content: String!
+  subject: String
+  activity: String
+  status: String
+  note: String
   # Needed for diaryUpdated Subscription filter
   studentId: Int!
 }
@@ -83,7 +89,10 @@ input DeleteDiaryInput {
 # Input for deleteDiary Mutation
 input EditDiaryInput {
   id: Int!
-  content: String!
+  subject: String
+  activity: String
+  status: String
+  note: String!
   # Needed for diaryUpdated Subscription filter
   studentId: Int!
 }
