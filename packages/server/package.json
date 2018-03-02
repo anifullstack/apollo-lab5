@@ -70,6 +70,7 @@
     "babel-register": "^6.26.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
+    "casual": "^1.5.19",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
     "error-stack-parser": "^2.0.1",
