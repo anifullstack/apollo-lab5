@@ -1,5 +1,113 @@
-extend type Query {}
+# Student
+type Student {
+  id: Int!
+  title: String!
+  content: String!
+  diarys: [Diary]
+}
 
-extend type Mutation {}
+# Diary
+type Diary {
+  id: Int!
+  content: String!
+}
 
-extend type Subscription {}
+# Edges for Students
+type StudentEdges {
+  node: Student
+  cursor: Int
+}
+
+# PageInfo for Students
+type StudentPageInfo {
+  endCursor: Int
+  hasNextPage: Boolean
+}
+
+# Students relay-style pagination query
+type Students {
+  totalCount: Int
+  edges: [StudentEdges]
+  pageInfo: StudentPageInfo
+}
+
+extend type Query {
+  # Students pagination query
+  students(limit: Int, after: Int): Students
+  # Student
+  student(id: Int!): Student
+}
+
+extend type Mutation {
+  # Create new student
+  addStudent(input: AddStudentInput!): Student
+  # Delete a student
+  deleteStudent(id: Int!): Student
+  # Edit a student
+  editStudent(input: EditStudentInput!): Student
+  # Add diary to student
+  addDiary(input: AddDiaryInput!): Diary
+  # Delete a diary
+  deleteDiary(input: DeleteDiaryInput!): Diary
+  # Edit a diary
+  editDiary(input: EditDiaryInput!): Diary
+}
+
+# Input for addStudent Mutation
+input AddStudentInput {
+  title: String!
+  content: String!
+}
+
+# Input for editStudent Mutation
+input EditStudentInput {
+  id: Int!
+  title: String!
+  content: String!
+}
+
+# Input for addDiary Mutation
+input AddDiaryInput {
+  content: String!
+  # Needed for diaryUpdated Subscription filter
+  studentId: Int!
+}
+
+# Input for editDiary Mutation
+input DeleteDiaryInput {
+  id: Int!
+  # Needed for diaryUpdated Subscription filter
+  studentId: Int!
+}
+
+# Input for deleteDiary Mutation
+input EditDiaryInput {
+  id: Int!
+  content: String!
+  # Needed for diaryUpdated Subscription filter
+  studentId: Int!
+}
+
+extend type Subscription {
+  # Subscription for when editing a student
+  studentUpdated(id: Int!): Student
+  # Subscription for student list
+  studentsUpdated(endCursor: Int!): UpdateStudentPayload
+  # Subscription for diarys
+  diaryUpdated(studentId: Int!): UpdateDiaryPayload
+}
+
+# Payload for studentsUpdated Subscription
+type UpdateStudentPayload {
+  mutation: String!
+  id: Int!
+  node: Student
+}
+
+# Payload for diaryUpdated Subscription
+type UpdateDiaryPayload {
+  mutation: String!
+  id: Int
+  studentId: Int!
+  node: Diary
+}
