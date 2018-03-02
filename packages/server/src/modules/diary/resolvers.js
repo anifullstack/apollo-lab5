@@ -3,7 +3,7 @@ import { createBatchResolver } from "graphql-resolve-batch";
 
 const STUDENT_SUBSCRIPTION = "student_subscription";
 const STUDENTS_SUBSCRIPTION = "students_subscription";
-const COMMENT_SUBSCRIPTION = "diary_subscription";
+const DIARY_SUBSCRIPTION = "diary_subscription";
 
 export default pubsub => ({
   Query: {
@@ -16,8 +16,8 @@ export default pubsub => ({
           cursor: student.id,
           node: {
             id: student.id,
-            title: student.title,
-            content: student.content
+            firstName: student.firstName,
+            lastName: student.lastName
           }
         });
       });
@@ -45,7 +45,7 @@ export default pubsub => ({
   },
   Student: {
     diarys: createBatchResolver((sources, args, context) => {
-      return context.Student.getCommentsForStudentIds(
+      return context.Student.getDiarysForStudentIds(
         sources.map(({ id }) => id)
       );
     })
@@ -96,11 +96,11 @@ export default pubsub => ({
       pubsub.publish(STUDENT_SUBSCRIPTION, { studentUpdated: student });
       return student;
     },
-    async addComment(obj, { input }, context) {
-      const [id] = await context.Student.addComment(input);
-      const diary = await context.Student.getComment(id);
+    async addDiary(obj, { input }, context) {
+      const [id] = await context.Student.addDiary(input);
+      const diary = await context.Student.getDiary(id);
       // publish for edit student page
-      pubsub.publish(COMMENT_SUBSCRIPTION, {
+      pubsub.publish(DIARY_SUBSCRIPTION, {
         diaryUpdated: {
           mutation: "CREATED",
           id: diary.id,
@@ -110,10 +110,10 @@ export default pubsub => ({
       });
       return diary;
     },
-    async deleteComment(obj, { input: { id, studentId } }, context) {
-      await context.Student.deleteComment(id);
+    async deleteDiary(obj, { input: { id, studentId } }, context) {
+      await context.Student.deleteDiary(id);
       // publish for edit student page
-      pubsub.publish(COMMENT_SUBSCRIPTION, {
+      pubsub.publish(DIARY_SUBSCRIPTION, {
         diaryUpdated: {
           mutation: "DELETED",
           id,
@@ -123,11 +123,11 @@ export default pubsub => ({
       });
       return { id };
     },
-    async editComment(obj, { input }, context) {
-      await context.Student.editComment(input);
-      const diary = await context.Student.getComment(input.id);
+    async editDiary(obj, { input }, context) {
+      await context.Student.editDiary(input);
+      const diary = await context.Student.getDiary(input.id);
       // publish for edit student page
-      pubsub.publish(COMMENT_SUBSCRIPTION, {
+      pubsub.publish(DIARY_SUBSCRIPTION, {
         diaryUpdated: {
           mutation: "UPDATED",
           id: input.id,
@@ -157,7 +157,7 @@ export default pubsub => ({
     },
     diaryUpdated: {
       subscribe: withFilter(
-        () => pubsub.asyncIterator(COMMENT_SUBSCRIPTION),
+        () => pubsub.asyncIterator(DIARY_SUBSCRIPTION),
         (payload, variables) => {
           return payload.diaryUpdated.studentId === variables.studentId;
         }

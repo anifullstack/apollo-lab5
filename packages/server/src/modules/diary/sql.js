@@ -2,7 +2,7 @@ import { orderedFor } from "../../sql/helpers";
 import knex from "../../sql/connector";
 
 export default class Student {
-  StudentsPagination(limit, after) {
+  studentsPagination(limit, after) {
     let where = "";
     if (after > 0) {
       where = `id < ${after}`;
@@ -10,7 +10,7 @@ export default class Student {
 
     return knex
       .select("id", "firstName", "lastName")
-      .from("Student")
+      .from("student")
       .whereRaw(where)
       .orderBy("id", "desc")
       .limit(limit);
@@ -19,7 +19,7 @@ export default class Student {
   async getDiarysForStudentIds(StudentIds) {
     const res = await knex
       .select("id", "subject", "activity", "note", "Student_id AS StudentId")
-      .from("Diary")
+      .from("diary")
       .whereIn("Student_id", StudentIds);
 
     return orderedFor(res, StudentIds, "StudentId", false);
