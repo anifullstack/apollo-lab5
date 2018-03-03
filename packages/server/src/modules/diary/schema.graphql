@@ -9,8 +9,8 @@ type Student {
 # Diary
 type Diary {
   id: Int!
-  subject: String!
-  activity: String!
+  subject: String
+  activity: String
   status: String
   note: String
 }
