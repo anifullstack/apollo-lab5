@@ -51,7 +51,7 @@ class StudentDiarys extends React.Component {
   static propTypes = {
     studentId: PropTypes.number.isRequired,
     diarys: PropTypes.array.isRequired,
-    diary: PropTypes.object.isRequired,
+
     onDiarySelect: PropTypes.func.isRequired,
     subscribeToMore: PropTypes.func.isRequired
   };
@@ -59,6 +59,14 @@ class StudentDiarys extends React.Component {
   constructor(props) {
     super(props);
     this.subscription = null;
+    console.log(
+      "Client",
+      "Containers",
+      "StudentDiarys",
+      "constructor",
+      "props",
+      JSON.stringify(this.props)
+    );
   }
 
   componentWillReceiveProps(nextProps) {
@@ -106,6 +114,13 @@ class StudentDiarys extends React.Component {
   };
 
   render() {
+    console.log(
+      "Client",
+      "Containers",
+      "StudentDiarys",
+      "props",
+      JSON.stringify(this.props)
+    );
     return <StudentDiarysView {...this.props} />;
   }
 }

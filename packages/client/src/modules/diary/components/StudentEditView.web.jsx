@@ -51,6 +51,12 @@ const StudentEditView = ({
       </PageLayout>
     );
   } else {
+    console.log(
+      "StudentEditViewWeb",
+      "PageLayout",
+      "studentObj",
+      JSON.stringify(studentObj)
+    );
     return (
       <PageLayout>
         {renderMetaData()}
@@ -63,6 +69,14 @@ const StudentEditView = ({
           student={student}
         />
         <br />
+        {studentObj &&
+          studentObj.diarys && (
+            <StudentDiarys
+              studentId={Number(match.params.id)}
+              diarys={studentObj.diarys}
+              subscribeToMore={subscribeToMore}
+            />
+          )}
       </PageLayout>
     );
   }

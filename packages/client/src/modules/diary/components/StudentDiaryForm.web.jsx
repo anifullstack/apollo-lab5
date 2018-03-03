@@ -26,7 +26,9 @@ const StudentDiaryForm = ({ values, handleSubmit, diary }) => {
     <Form name="diary" onSubmit={handleSubmit}>
       <Row>
         <Col xs={2}>
-          <Label>{diary.id === null ? "Add diary" : "Edit diary"}</Label>
+          <Label>
+            {diary && diary.id === null ? "Add diary" : "Edit diary"}
+          </Label>
         </Col>
         <Col xs={8}>
           <Field
@@ -69,7 +71,12 @@ StudentDiaryForm.propTypes = {
 };
 
 const StudentDiaryFormWithFormik = withFormik({
-  mapPropsToValues: props => ({ note: props.diary && props.diary.note }),
+  mapPropsToValues: props => ({
+    subject: props.diary && props.diary.subject,
+    activity: props.diary && props.diary.activity,
+
+    note: props.diary && props.diary.note
+  }),
   async handleSubmit(values, { resetForm, props: { onSubmit } }) {
     await onSubmit(values);
     resetForm({ subject: "", activity: "", note: "" });
