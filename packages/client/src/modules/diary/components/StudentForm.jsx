@@ -5,24 +5,24 @@ import Field from '../../../utils/FieldAdapter';
 import { FormView, RenderField, FormButton } from '../../common/components/native';
 import { required, validateForm } from '../../../../../common/validation';
 
-const postFormSchema = {
-  title: [required],
-  content: [required]
+const studentFormSchema = {
+  firstName: [required],
+  lastName: [required]
 };
 
-const validate = values => validateForm(values, postFormSchema);
+const validate = values => validateForm(values, studentFormSchema);
 
-const PostForm = ({ values, handleSubmit }) => {
+const StudentForm = ({ values, handleSubmit }) => {
   return (
     <FormView>
-      <Field name="title" component={RenderField} type="text" label="Title" value={values.title} />
-      <Field name="content" component={RenderField} type="text" label="Content" value={values.content} />
+      <Field name="firstName" component={RenderField} type="text" label="FirstName" value={values.firstName} />
+      <Field name="lastName" component={RenderField} type="text" label="LastName" value={values.lastName} />
       <FormButton onPress={handleSubmit}>Save</FormButton>
     </FormView>
   );
 };
 
-PostForm.propTypes = {
+StudentForm.propTypes = {
   handleSubmit: PropTypes.func,
   setFieldTouched: PropTypes.func,
   setFieldValue: PropTypes.func,
@@ -30,16 +30,16 @@ PostForm.propTypes = {
   values: PropTypes.object
 };
 
-const PostFormWithFormik = withFormik({
+const StudentFormWithFormik = withFormik({
   mapPropsToValues: props => ({
-    title: props.post && props.post.title,
-    content: props.post && props.post.content
+    firstName: props.student && props.student.firstName,
+    lastName: props.student && props.student.lastName
   }),
   validate: values => validate(values),
   handleSubmit(values, { props: { onSubmit } }) {
     onSubmit(values);
   },
-  displayName: 'PostForm' // helps with React DevTools
+  displayName: 'StudentForm' // helps with React DevTools
 });
 
-export default PostFormWithFormik(PostForm);
+export default StudentFormWithFormik(StudentForm);

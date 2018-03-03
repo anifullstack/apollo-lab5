@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import { StyleSheet, FlatList, Text, View } from 'react-native';
 import { SwipeAction } from '../../common/components/native';
 
-export default class PostList extends React.PureComponent {
+export default class StudentList extends React.PureComponent {
   static propTypes = {
     loading: PropTypes.bool.isRequired,
-    posts: PropTypes.object,
+    students: PropTypes.object,
     navigation: PropTypes.object,
-    deletePost: PropTypes.func.isRequired,
+    deleteStudent: PropTypes.func.isRequired,
     loadMoreRows: PropTypes.func.isRequired
   };
 
@@ -18,13 +18,13 @@ export default class PostList extends React.PureComponent {
   keyExtractor = item => item.node.id;
 
   renderItem = ({ item: { node: { id, title } } }) => {
-    const { deletePost, navigation } = this.props;
+    const { deleteStudent, navigation } = this.props;
     return (
       <SwipeAction
-        onPress={() => navigation.navigate('PostEdit', { id })}
+        onPress={() => navigation.navigate('StudentEdit', { id })}
         right={{
           text: 'Delete',
-          onPress: () => deletePost(id)
+          onPress: () => deleteStudent(id)
         }}
       >
         {title}
@@ -33,7 +33,7 @@ export default class PostList extends React.PureComponent {
   };
 
   render() {
-    const { loading, posts, loadMoreRows } = this.props;
+    const { loading, students, loadMoreRows } = this.props;
 
     if (loading) {
       return (
@@ -44,7 +44,7 @@ export default class PostList extends React.PureComponent {
     } else {
       return (
         <FlatList
-          data={posts.edges}
+          data={students.edges}
           keyExtractor={this.keyExtractor}
           renderItem={this.renderItem}
           onEndReachedThreshold={0.5}
@@ -53,7 +53,7 @@ export default class PostList extends React.PureComponent {
           }}
           onEndReached={() => {
             if (!this.onEndReachedCalledDuringMomentum) {
-              if (posts.pageInfo.hasNextPage) {
+              if (students.pageInfo.hasNextPage) {
                 this.onEndReachedCalledDuringMomentum = true;
                 return loadMoreRows();
               }

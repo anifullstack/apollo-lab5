@@ -3,28 +3,28 @@ import PropTypes from 'prop-types';
 import { graphql, compose } from 'react-apollo';
 import update from 'immutability-helper';
 
-import PostList from '../components/PostList';
+import StudentList from '../components/StudentList';
 
-import POSTS_QUERY from '../graphql/PostsQuery.graphql';
-import POSTS_SUBSCRIPTION from '../graphql/PostsSubscription.graphql';
-import DELETE_POST from '../graphql/DeletePost.graphql';
+import STUDENTS_QUERY from '../graphql/StudentsQuery.graphql';
+import STUDENTS_SUBSCRIPTION from '../graphql/StudentsSubscription.graphql';
+import DELETE_STUDENT from '../graphql/DeleteStudent.graphql';
 
-export function AddPost(prev, node) {
+export function AddStudent(prev, node) {
   // ignore if duplicate
-  if (node.id !== null && prev.posts.edges.some(post => node.id === post.cursor)) {
+  if (node.id !== null && prev.students.edges.some(student => node.id === student.cursor)) {
     return prev;
   }
 
   const edge = {
     cursor: node.id,
     node: node,
-    __typename: 'PostEdges'
+    __typename: 'StudentEdges'
   };
 
   return update(prev, {
-    posts: {
+    students: {
       totalCount: {
-        $set: prev.posts.totalCount + 1
+        $set: prev.students.totalCount + 1
       },
       edges: {
         $unshift: [edge]
@@ -33,8 +33,8 @@ export function AddPost(prev, node) {
   });
 }
 
-function DeletePost(prev, id) {
-  const index = prev.posts.edges.findIndex(x => x.node.id === id);
+function DeleteStudent(prev, id) {
+  const index = prev.students.edges.findIndex(x => x.node.id === id);
 
   // ignore if not found
   if (index < 0) {
@@ -42,9 +42,9 @@ function DeletePost(prev, id) {
   }
 
   return update(prev, {
-    posts: {
+    students: {
       totalCount: {
-        $set: prev.posts.totalCount - 1
+        $set: prev.students.totalCount - 1
       },
       edges: {
         $splice: [[index, 1]]
@@ -53,10 +53,10 @@ function DeletePost(prev, id) {
   });
 }
 
-class Post extends React.Component {
+class Student extends React.Component {
   static propTypes = {
     loading: PropTypes.bool.isRequired,
-    posts: PropTypes.object,
+    students: PropTypes.object,
     subscribeToMore: PropTypes.func.isRequired
   };
 
@@ -67,8 +67,8 @@ class Post extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.loading) {
-      const endCursor = this.props.posts ? this.props.posts.pageInfo.endCursor : 0;
-      const nextEndCursor = nextProps.posts.pageInfo.endCursor;
+      const endCursor = this.props.students ? this.props.students.pageInfo.endCursor : 0;
+      const nextEndCursor = nextProps.students.pageInfo.endCursor;
 
       // Check if props have changed and, if necessary, stop the subscription
       if (this.subscription && endCursor !== nextEndCursor) {
@@ -78,7 +78,7 @@ class Post extends React.Component {
 
       // Subscribe or re-subscribe
       if (!this.subscription) {
-        this.subscribeToPostList(nextEndCursor);
+        this.subscribeToStudentList(nextEndCursor);
       }
     }
   }
@@ -90,19 +90,19 @@ class Post extends React.Component {
     }
   }
 
-  subscribeToPostList = endCursor => {
+  subscribeToStudentList = endCursor => {
     const { subscribeToMore } = this.props;
 
     this.subscription = subscribeToMore({
-      document: POSTS_SUBSCRIPTION,
+      document: STUDENTS_SUBSCRIPTION,
       variables: { endCursor },
-      updateQuery: (prev, { subscriptionData: { data: { postsUpdated: { mutation, node } } } }) => {
+      updateQuery: (prev, { subscriptionData: { data: { studentsUpdated: { mutation, node } } } }) => {
         let newResult = prev;
 
         if (mutation === 'CREATED') {
-          newResult = AddPost(prev, node);
+          newResult = AddStudent(prev, node);
         } else if (mutation === 'DELETED') {
-          newResult = DeletePost(prev, node.id);
+          newResult = DeleteStudent(prev, node.id);
         }
 
         return newResult;
@@ -111,65 +111,65 @@ class Post extends React.Component {
   };
 
   render() {
-    return <PostList {...this.props} />;
+    return <StudentList {...this.props} />;
   }
 }
 
 export default compose(
-  graphql(POSTS_QUERY, {
+  graphql(STUDENTS_QUERY, {
     options: () => {
       return {
         variables: { limit: 10, after: 0 }
       };
     },
     props: ({ data }) => {
-      const { loading, error, posts, fetchMore, subscribeToMore } = data;
+      const { loading, error, students, fetchMore, subscribeToMore } = data;
       const loadMoreRows = () => {
         return fetchMore({
           variables: {
-            after: posts.pageInfo.endCursor
+            after: students.pageInfo.endCursor
           },
           updateQuery: (previousResult, { fetchMoreResult }) => {
-            const totalCount = fetchMoreResult.posts.totalCount;
-            const newEdges = fetchMoreResult.posts.edges;
-            const pageInfo = fetchMoreResult.posts.pageInfo;
+            const totalCount = fetchMoreResult.students.totalCount;
+            const newEdges = fetchMoreResult.students.edges;
+            const pageInfo = fetchMoreResult.students.pageInfo;
 
             return {
               // By returning `cursor` here, we update the `fetchMore` function
               // to the new cursor.
-              posts: {
+              students: {
                 totalCount,
-                edges: [...previousResult.posts.edges, ...newEdges],
+                edges: [...previousResult.students.edges, ...newEdges],
                 pageInfo,
-                __typename: 'Posts'
+                __typename: 'Students'
               }
             };
           }
         });
       };
       if (error) throw new Error(error);
-      return { loading, posts, subscribeToMore, loadMoreRows };
+      return { loading, students, subscribeToMore, loadMoreRows };
     }
   }),
-  graphql(DELETE_POST, {
+  graphql(DELETE_STUDENT, {
     props: ({ mutate }) => ({
-      deletePost: id => {
+      deleteStudent: id => {
         mutate({
           variables: { id },
           optimisticResponse: {
             __typename: 'Mutation',
-            deletePost: {
+            deleteStudent: {
               id: id,
-              __typename: 'Post'
+              __typename: 'Student'
             }
           },
           updateQueries: {
-            posts: (prev, { mutationResult: { data: { deletePost } } }) => {
-              return DeletePost(prev, deletePost.id);
+            students: (prev, { mutationResult: { data: { deleteStudent } } }) => {
+              return DeleteStudent(prev, deleteStudent.id);
             }
           }
         });
       }
     })
   })
-)(Post);
+)(Student);

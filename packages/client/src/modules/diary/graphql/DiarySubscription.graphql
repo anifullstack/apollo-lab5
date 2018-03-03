@@ -1,0 +1,12 @@
+#import "./Diary.graphql"
+
+subscription onDiaryUpdated($studentId: Int!) {
+  diaryUpdated(studentId: $studentId) {
+    mutation
+    id
+    studentId
+    node {
+      ... DiaryInfo
+    }
+  }
+}

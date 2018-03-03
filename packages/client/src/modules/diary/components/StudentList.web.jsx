@@ -5,21 +5,21 @@ import { Link } from 'react-router-dom';
 import { PageLayout, Table, Button } from '../../common/components/web';
 import settings from '../../../../../../settings';
 
-export default class PostList extends React.PureComponent {
+export default class StudentList extends React.PureComponent {
   static propTypes = {
     loading: PropTypes.bool.isRequired,
-    posts: PropTypes.object,
-    deletePost: PropTypes.func.isRequired,
+    students: PropTypes.object,
+    deleteStudent: PropTypes.func.isRequired,
     loadMoreRows: PropTypes.func.isRequired
   };
 
-  handleDeletePost = id => {
-    const { deletePost } = this.props;
-    deletePost(id);
+  handleDeleteStudent = id => {
+    const { deleteStudent } = this.props;
+    deleteStudent(id);
   };
 
-  renderLoadMore = (posts, loadMoreRows) => {
-    if (posts.pageInfo.hasNextPage) {
+  renderLoadMore = (students, loadMoreRows) => {
+    if (students.pageInfo.hasNextPage) {
       return (
         <Button id="load-more" color="primary" onClick={loadMoreRows}>
           Load more ...
@@ -30,18 +30,18 @@ export default class PostList extends React.PureComponent {
 
   renderMetaData = () => (
     <Helmet
-      title={`${settings.app.name} - Posts list`}
+      title={`${settings.app.name} - Students list`}
       meta={[
         {
           name: 'description',
-          content: `${settings.app.name} - List of all posts example page`
+          content: `${settings.app.name} - List of all students example page`
         }
       ]}
     />
   );
 
   render() {
-    const { loading, posts, loadMoreRows } = this.props;
+    const { loading, students, loadMoreRows } = this.props;
     if (loading) {
       return (
         <PageLayout>
@@ -52,11 +52,21 @@ export default class PostList extends React.PureComponent {
     } else {
       const columns = [
         {
-          title: 'Title',
-          dataIndex: 'title',
-          key: 'title',
+          title: 'FirstName',
+          dataIndex: 'firstName',
+          key: 'firstName',
           render: (text, record) => (
-            <Link className="post-link" to={`/post/${record.id}`}>
+            <Link className="student-link" to={`/student/${record.id}`}>
+              {text}
+            </Link>
+          )
+        },
+        {
+          title: 'Last Name',
+          dataIndex: 'lastName',
+          key: 'lastName',
+          render: (text, record) => (
+            <Link className="student-link" to={`/student/${record.id}`}>
               {text}
             </Link>
           )
@@ -70,7 +80,7 @@ export default class PostList extends React.PureComponent {
               color="primary"
               size="sm"
               className="delete-button"
-              onClick={() => this.handleDeletePost(record.id)}
+              onClick={() => this.handleDeleteStudent(record.id)}
             >
               Delete
             </Button>
@@ -80,18 +90,18 @@ export default class PostList extends React.PureComponent {
       return (
         <PageLayout>
           {this.renderMetaData()}
-          <h2>Posts</h2>
-          <Link to="/post/0">
+          <h2>Students</h2>
+          <Link to="/student/0">
             <Button color="primary">Add</Button>
           </Link>
           <h1 />
-          <Table dataSource={posts.edges.map(({ node }) => node)} columns={columns} />
+          <Table dataSource={students.edges.map(({ node }) => node)} columns={columns} />
           <div>
             <small>
-              ({posts.edges.length} / {posts.totalCount})
+              ({students.edges.length} / {students.totalCount})
             </small>
           </div>
-          {this.renderLoadMore(posts, loadMoreRows)}
+          {this.renderLoadMore(students, loadMoreRows)}
         </PageLayout>
       );
     }

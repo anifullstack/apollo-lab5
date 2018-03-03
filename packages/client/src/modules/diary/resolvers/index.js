@@ -1,37 +1,37 @@
-import COMMENT_QUERY_CLIENT from '../graphql/CommentQuery.client.graphql';
+import DIARY_QUERY_CLIENT from '../graphql/DiaryQuery.client.graphql';
 
-const TYPE_NAME = 'CommentState';
-const TYPE_NAME_COMMENT = 'Comment';
+const TYPE_NAME = 'DiaryState';
+const TYPE_NAME_DIARY = 'Diary';
 
 const defaults = {
-  comment: {
+  diary: {
     id: null,
     content: '',
-    __typename: TYPE_NAME_COMMENT
+    __typename: TYPE_NAME_DIARY
   },
   __typename: TYPE_NAME
 };
 
 const resolvers = {
   Query: {
-    commentState: (_, args, { cache }) => {
-      const { comment: { comment } } = cache.readQuery({ query: COMMENT_QUERY_CLIENT });
+    diaryState: (_, args, { cache }) => {
+      const { diary: { diary } } = cache.readQuery({ query: DIARY_QUERY_CLIENT });
       return {
-        comment: {
-          ...comment,
-          __typename: TYPE_NAME_COMMENT
+        diary: {
+          ...diary,
+          __typename: TYPE_NAME_DIARY
         },
         __typename: TYPE_NAME
       };
     }
   },
   Mutation: {
-    onCommentSelect: async (_, { comment }, { cache }) => {
+    onDiarySelect: async (_, { diary }, { cache }) => {
       await cache.writeData({
         data: {
-          comment: {
-            ...comment,
-            __typename: TYPE_NAME_COMMENT
+          diary: {
+            ...diary,
+            __typename: TYPE_NAME_DIARY
           },
           __typename: TYPE_NAME
         }

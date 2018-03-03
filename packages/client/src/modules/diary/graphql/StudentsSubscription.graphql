@@ -1,0 +1,10 @@
+#import "./Student.graphql"
+
+subscription onStudentsUpdated($endCursor: Int!) {
+  studentsUpdated(endCursor: $endCursor) {
+    mutation
+    node {
+      ...StudentInfo
+    }
+  }
+}
