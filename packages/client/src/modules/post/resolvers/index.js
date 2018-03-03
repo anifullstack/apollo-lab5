@@ -1,12 +1,12 @@
-import COMMENT_QUERY_CLIENT from '../graphql/CommentQuery.client.graphql';
+import COMMENT_QUERY_CLIENT from "../graphql/CommentQuery.client.graphql";
 
-const TYPE_NAME = 'CommentState';
-const TYPE_NAME_COMMENT = 'Comment';
+const TYPE_NAME = "CommentState";
+const TYPE_NAME_COMMENT = "Comment";
 
 const defaults = {
   comment: {
     id: null,
-    content: '',
+    content: "YYYYYYY",
     __typename: TYPE_NAME_COMMENT
   },
   __typename: TYPE_NAME
@@ -15,7 +15,11 @@ const defaults = {
 const resolvers = {
   Query: {
     commentState: (_, args, { cache }) => {
-      const { comment: { comment } } = cache.readQuery({ query: COMMENT_QUERY_CLIENT });
+      const { comment: { comment } } = cache.readQuery({
+        query: COMMENT_QUERY_CLIENT
+      });
+      console.log("client", "resolvers", "query", "comment", comment);
+
       return {
         comment: {
           ...comment,

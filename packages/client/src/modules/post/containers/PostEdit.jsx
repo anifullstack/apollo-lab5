@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { graphql, compose } from 'react-apollo';
+import React from "react";
+import PropTypes from "prop-types";
+import { graphql, compose } from "react-apollo";
 
-import PostEditView from '../components/PostEditView';
-import { AddPost } from './Post';
+import PostEditView from "../components/PostEditView";
+import { AddPost } from "./Post";
 
-import POST_QUERY from '../graphql/PostQuery.graphql';
-import ADD_POST from '../graphql/AddPost.graphql';
-import EDIT_POST from '../graphql/EditPost.graphql';
-import POST_SUBSCRIPTION from '../graphql/PostSubscription.graphql';
+import POST_QUERY from "../graphql/PostQuery.graphql";
+import ADD_POST from "../graphql/AddPost.graphql";
+import EDIT_POST from "../graphql/EditPost.graphql";
+import POST_SUBSCRIPTION from "../graphql/PostSubscription.graphql";
 
 class PostEdit extends React.Component {
   static propTypes = {
@@ -80,12 +80,14 @@ export default compose(
   graphql(ADD_POST, {
     props: ({ ownProps: { history, navigation }, mutate }) => ({
       addPost: async (title, content) => {
+        console.log("PostEdit", "ADD_POST", title, content);
+
         let postData = await mutate({
           variables: { input: { title, content } },
           optimisticResponse: {
-            __typename: 'Mutation',
+            __typename: "Mutation",
             addPost: {
-              __typename: 'Post',
+              __typename: "Post",
               id: null,
               title: title,
               content: content,
@@ -100,7 +102,7 @@ export default compose(
         });
 
         if (history) {
-          return history.push('/post/' + postData.data.addPost.id, {
+          return history.push("/post/" + postData.data.addPost.id, {
             post: postData.data.addPost
           });
         } else if (navigation) {
@@ -119,7 +121,7 @@ export default compose(
           variables: { input: { id, title, content } }
         });
         if (history) {
-          return history.push('/posts');
+          return history.push("/posts");
         }
         if (navigation) {
           return navigation.goBack();

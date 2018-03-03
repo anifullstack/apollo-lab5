@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Helmet from 'react-helmet';
-import { Link } from 'react-router-dom';
+import React from "react";
+import PropTypes from "prop-types";
+import Helmet from "react-helmet";
+import { Link } from "react-router-dom";
 
-import { PageLayout } from '../../common/components/web';
-import PostForm from './PostForm';
-import PostComments from '../containers/PostComments';
-import settings from '../../../../../../settings';
+import { PageLayout } from "../../common/components/web";
+import PostForm from "./PostForm";
+import PostComments from "../containers/PostComments";
+import settings from "../../../../../../settings";
 
 const onSubmit = (post, addPost, editPost) => values => {
   if (post) {
@@ -16,7 +16,15 @@ const onSubmit = (post, addPost, editPost) => values => {
   }
 };
 
-const PostEditView = ({ loading, post, match, location, subscribeToMore, addPost, editPost }) => {
+const PostEditView = ({
+  loading,
+  post,
+  match,
+  location,
+  subscribeToMore,
+  addPost,
+  editPost
+}) => {
   let postObj = post;
   // if new post was just added read it from router
   if (!postObj && location.state) {
@@ -28,8 +36,8 @@ const PostEditView = ({ loading, post, match, location, subscribeToMore, addPost
       title={`${settings.app.name} - Edit post`}
       meta={[
         {
-          name: 'description',
-          content: 'Edit post example page'
+          name: "description",
+          content: "Edit post example page"
         }
       ]}
     />
@@ -43,15 +51,22 @@ const PostEditView = ({ loading, post, match, location, subscribeToMore, addPost
       </PageLayout>
     );
   } else {
+    console.log(
+      "PostEditViewWeb",
+      "PageLayout",
+      "postObj",
+      JSON.stringify(postObj)
+    );
     return (
       <PageLayout>
         {renderMetaData()}
         <Link id="back-button" to="/posts">
           Back
         </Link>
-        <h2>{post ? 'Edit' : 'Create'} Post</h2>
+        <h2>{post ? "Edit" : "Create"} Post</h2>
         <PostForm onSubmit={onSubmit(postObj, addPost, editPost)} post={post} />
         <br />
+
         {postObj && (
           <PostComments
             postId={Number(match.params.id)}

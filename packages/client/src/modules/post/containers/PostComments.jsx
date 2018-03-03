@@ -1,20 +1,25 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { graphql, compose } from 'react-apollo';
-import update from 'immutability-helper';
+import React from "react";
+import PropTypes from "prop-types";
+import { graphql, compose } from "react-apollo";
+import update from "immutability-helper";
 
-import PostCommentsView from '../components/PostCommentsView';
+import PostCommentsView from "../components/PostCommentsView";
 
-import ADD_COMMENT from '../graphql/AddComment.graphql';
-import EDIT_COMMENT from '../graphql/EditComment.graphql';
-import DELETE_COMMENT from '../graphql/DeleteComment.graphql';
-import COMMENT_SUBSCRIPTION from '../graphql/CommentSubscription.graphql';
-import ADD_COMMENT_CLIENT from '../graphql/AddComment.client.graphql';
-import COMMENT_QUERY_CLIENT from '../graphql/CommentQuery.client.graphql';
+import ADD_COMMENT from "../graphql/AddComment.graphql";
+import EDIT_COMMENT from "../graphql/EditComment.graphql";
+import DELETE_COMMENT from "../graphql/DeleteComment.graphql";
+import COMMENT_SUBSCRIPTION from "../graphql/CommentSubscription.graphql";
+import ADD_COMMENT_CLIENT from "../graphql/AddComment.client.graphql";
+import COMMENT_QUERY_CLIENT from "../graphql/CommentQuery.client.graphql";
 
 function AddComment(prev, node) {
   // ignore if duplicate
-  if (node.id !== null && prev.post.comments.some(comment => node.id !== null && node.id === comment.id)) {
+  if (
+    node.id !== null &&
+    prev.post.comments.some(
+      comment => node.id !== null && node.id === comment.id
+    )
+  ) {
     return prev;
   }
 
@@ -56,6 +61,14 @@ class PostComments extends React.Component {
   constructor(props) {
     super(props);
     this.subscription = null;
+    console.log(
+      "Client",
+      "Containers",
+      "PostComments",
+      "constuctor",
+      "props",
+      JSON.stringify(this.props)
+    );
   }
 
   componentWillReceiveProps(nextProps) {
@@ -71,7 +84,7 @@ class PostComments extends React.Component {
   }
 
   componentWillUnmount() {
-    this.props.onCommentSelect({ id: null, content: '' });
+    this.props.onCommentSelect({ id: null, content: "" });
 
     if (this.subscription) {
       // unsubscribe
@@ -85,12 +98,17 @@ class PostComments extends React.Component {
     this.subscription = subscribeToMore({
       document: COMMENT_SUBSCRIPTION,
       variables: { postId },
-      updateQuery: (prev, { subscriptionData: { data: { commentUpdated: { mutation, id, node } } } }) => {
+      updateQuery: (
+        prev,
+        {
+          subscriptionData: { data: { commentUpdated: { mutation, id, node } } }
+        }
+      ) => {
         let newResult = prev;
 
-        if (mutation === 'CREATED') {
+        if (mutation === "CREATED") {
           newResult = AddComment(prev, node);
-        } else if (mutation === 'DELETED') {
+        } else if (mutation === "DELETED") {
           newResult = DeleteComment(prev, id);
         }
 
@@ -100,6 +118,14 @@ class PostComments extends React.Component {
   };
 
   render() {
+    console.log(
+      "Client",
+      "Containers",
+      "PostComments",
+      "render",
+      "props",
+      JSON.stringify(this.props)
+    );
     return <PostCommentsView {...this.props} />;
   }
 }
@@ -111,9 +137,9 @@ const PostCommentsWithApollo = compose(
         mutate({
           variables: { input: { content, postId } },
           optimisticResponse: {
-            __typename: 'Mutation',
+            __typename: "Mutation",
             addComment: {
-              __typename: 'Comment',
+              __typename: "Comment",
               id: null,
               content: content
             }
@@ -121,7 +147,9 @@ const PostCommentsWithApollo = compose(
           updateQueries: {
             post: (prev, { mutationResult: { data: { addComment } } }) => {
               if (prev.post) {
-                prev.post.comments = prev.post.comments.filter(comment => comment.id);
+                prev.post.comments = prev.post.comments.filter(
+                  comment => comment.id
+                );
                 return AddComment(prev, addComment);
               }
             }
@@ -135,9 +163,9 @@ const PostCommentsWithApollo = compose(
         mutate({
           variables: { input: { id, postId, content } },
           optimisticResponse: {
-            __typename: 'Mutation',
+            __typename: "Mutation",
             editComment: {
-              __typename: 'Comment',
+              __typename: "Comment",
               id: id,
               content: content
             }
@@ -151,9 +179,9 @@ const PostCommentsWithApollo = compose(
         mutate({
           variables: { input: { id, postId } },
           optimisticResponse: {
-            __typename: 'Mutation',
+            __typename: "Mutation",
             deleteComment: {
-              __typename: 'Comment',
+              __typename: "Comment",
               id: id
             }
           },
