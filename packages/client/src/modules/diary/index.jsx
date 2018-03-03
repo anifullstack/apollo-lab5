@@ -6,54 +6,54 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { createTabBarIconWrapper } from "../common/components/native";
 
-import Post from "./containers/Student";
-import PostEdit from "./containers/StudentEdit";
+import Student from "./containers/Student";
+import StudentEdit from "./containers/StudentEdit";
 
 import resolvers from "./resolvers";
 
 import Feature from "../connector";
 
-class PostListScreen extends React.Component {
+class StudentListScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
-    title: "Post list",
+    title: "Student list",
     headerRight: (
       <Button
         title="Add"
-        onPress={() => navigation.navigate("PostEdit", { id: 0 })}
+        onPress={() => navigation.navigate("StudentEdit", { id: 0 })}
       />
     )
   });
   render() {
-    return <Post navigation={this.props.navigation} />;
+    return <Student navigation={this.props.navigation} />;
   }
 }
 
-PostListScreen.propTypes = {
+StudentListScreen.propTypes = {
   navigation: PropTypes.object
 };
 
-class PostEditScreen extends React.Component {
+class StudentEditScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
-    title: `${navigation.state.params.id === 0 ? "Create" : "Edit"} post`
+    title: `${navigation.state.params.id === 0 ? "Create" : "Edit"} Student`
   });
   render() {
-    return <PostEdit navigation={this.props.navigation} />;
+    return <StudentEdit navigation={this.props.navigation} />;
   }
 }
 
-PostEditScreen.propTypes = {
+StudentEditScreen.propTypes = {
   navigation: PropTypes.object
 };
 
-const PostNavigator = StackNavigator({
-  PostList: { screen: PostListScreen },
-  PostEdit: { screen: PostEditScreen }
+const StudentNavigator = StackNavigator({
+  StudentList: { screen: StudentListScreen },
+  StudentEdit: { screen: StudentEditScreen }
 });
 
 export default new Feature({
   tabItem: {
-    Post: {
-      screen: PostNavigator,
+    Student: {
+      screen: StudentNavigator,
       navigationOptions: {
         tabBarIcon: createTabBarIconWrapper(Ionicons, {
           name: "ios-book-outline",
