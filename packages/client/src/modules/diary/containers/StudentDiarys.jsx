@@ -13,6 +13,15 @@ import ADD_DIARY_CLIENT from "../graphql/AddDiary.client.graphql";
 import DIARY_QUERY_CLIENT from "../graphql/DiaryQuery.client.graphql";
 
 function AddDiary(prev, node) {
+  console.log(
+    "Client",
+    "StudentDiarys",
+    "AddDiary",
+    "prev",
+    prev,
+    "node",
+    node
+  );
   // ignore if duplicate
   if (
     node.id !== null &&
@@ -129,9 +138,9 @@ class StudentDiarys extends React.Component {
 const StudentDiarysWithApollo = compose(
   graphql(ADD_DIARY, {
     props: ({ mutate }) => ({
-      addDiary: (note, studentId) =>
+      addDiary: (subject, activity, note, studentId) =>
         mutate({
-          variables: { input: { note, studentId } },
+          variables: { input: { subject, activity, note, studentId } },
           optimisticResponse: {
             __typename: "Mutation",
             addDiary: {
