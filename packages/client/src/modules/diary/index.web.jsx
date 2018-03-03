@@ -15,8 +15,8 @@ export default new Feature({
     <Route exact path="/student/:id" component={PostEdit} />
   ],
   navItem: (
-    <MenuItem key="/posts">
-      <NavLink to="/posts" className="nav-link" activeClassName="active">
+    <MenuItem key="/students">
+      <NavLink to="/students" className="nav-link" activeClassName="active">
         Students
       </NavLink>
     </MenuItem>
