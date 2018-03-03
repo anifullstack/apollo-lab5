@@ -98,20 +98,42 @@ mutation addStudent($studentInfo: AddStudentInput!) {
   
 }
 
-mutation addDiary($diaryInfo: AddDiaryInput! ){
-   addDiary(input : $diaryInfo) {
-    id
-    subject
-    activity
-    
-  }
-}
+	mutation addDiary($diaryInfo: AddDiaryInput! ){
+	   addDiary(input : $diaryInfo) {
+		id
+		subject
+		activity
+		note
+	  }
+	}
 
 {
   "diaryInfo":  {
    "studentId": 2,
-    "subject": "Practical Life",
-    "activity": "Dressing Frame Button v1"	
+    "subject": "Sensorial",
+    "activity": "Pink Tower",	
+	"note": "Sens-Pink-note1"
   }
   
 }
+
+
+--------------
+
+
+mutation deleteDiary($deleteDiaryInfo: DeleteDiaryInput!) {
+  deleteDiary(input: $deleteDiaryInfo) {
+    id
+  }
+}
+
+
+	
+{
+  "deleteDiaryInfo":  {
+   "studentId": 2,
+    "id":49
+	}
+}
+
+----------

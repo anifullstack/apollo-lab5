@@ -1,20 +1,23 @@
-import React from 'react';
-import { Route, NavLink } from 'react-router-dom';
-import { MenuItem } from '../../modules/common/components/web';
+import React from "react";
+import { Route, NavLink } from "react-router-dom";
+import { MenuItem } from "../../modules/common/components/web";
 
-import Post from './containers/Post';
-import PostEdit from './containers/PostEdit';
+import Post from "./containers/Post";
+import PostEdit from "./containers/PostEdit";
 
-import resolvers from './resolvers';
+import resolvers from "./resolvers";
 
-import Feature from '../connector';
+import Feature from "../connector";
 
 export default new Feature({
-  route: [<Route exact path="/posts" component={Post} />, <Route exact path="/post/:id" component={PostEdit} />],
+  route: [
+    <Route exact path="/students" component={Post} />,
+    <Route exact path="/student/:id" component={PostEdit} />
+  ],
   navItem: (
     <MenuItem key="/posts">
       <NavLink to="/posts" className="nav-link" activeClassName="active">
-        Posts
+        Students
       </NavLink>
     </MenuItem>
   ),
