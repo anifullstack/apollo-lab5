@@ -44,6 +44,14 @@ export default class StudentDiarysView extends React.PureComponent {
 
   render() {
     const { studentId, diarys, diary } = this.props;
+    console.log(
+      "StudentDiarysViewWeb",
+      "render",
+      "studentId",
+      studentId,
+      "diary",
+      diary
+    );
     const columns = [
       {
         title: "Subjct",

@@ -51,7 +51,7 @@ class StudentDiarys extends React.Component {
   static propTypes = {
     studentId: PropTypes.number.isRequired,
     diarys: PropTypes.array.isRequired,
-
+    diary: PropTypes.object.isRequired,
     onDiarySelect: PropTypes.func.isRequired,
     subscribeToMore: PropTypes.func.isRequired
   };
@@ -63,7 +63,7 @@ class StudentDiarys extends React.Component {
       "Client",
       "Containers",
       "StudentDiarys",
-      "constructor",
+      "constuctor",
       "props",
       JSON.stringify(this.props)
     );
@@ -82,7 +82,7 @@ class StudentDiarys extends React.Component {
   }
 
   componentWillUnmount() {
-    this.props.onDiarySelect({ id: null, subject: "", activity: "", note: "" });
+    this.props.onDiarySelect({ id: null, note: "" });
 
     if (this.subscription) {
       // unsubscribe
@@ -118,6 +118,7 @@ class StudentDiarys extends React.Component {
       "Client",
       "Containers",
       "StudentDiarys",
+      "render",
       "props",
       JSON.stringify(this.props)
     );
@@ -128,16 +129,14 @@ class StudentDiarys extends React.Component {
 const StudentDiarysWithApollo = compose(
   graphql(ADD_DIARY, {
     props: ({ mutate }) => ({
-      addDiary: (subject, activity, note, studentId) =>
+      addDiary: (note, studentId) =>
         mutate({
-          variables: { input: { subject, activity, note, studentId } },
+          variables: { input: { note, studentId } },
           optimisticResponse: {
             __typename: "Mutation",
             addDiary: {
               __typename: "Diary",
               id: null,
-              subject: subject,
-              activity: activity,
               note: note
             }
           },
@@ -156,16 +155,14 @@ const StudentDiarysWithApollo = compose(
   }),
   graphql(EDIT_DIARY, {
     props: ({ ownProps: { studentId }, mutate }) => ({
-      editDiary: (id, subject, activity, note) =>
+      editDiary: (id, note) =>
         mutate({
-          variables: { input: { id, studentId, subject, activity, note } },
+          variables: { input: { id, studentId, note } },
           optimisticResponse: {
             __typename: "Mutation",
             editDiary: {
               __typename: "Diary",
               id: id,
-              subject: subject,
-              activity: activity,
               note: note
             }
           }

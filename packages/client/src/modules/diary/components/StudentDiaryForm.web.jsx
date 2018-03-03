@@ -26,9 +26,7 @@ const StudentDiaryForm = ({ values, handleSubmit, diary }) => {
     <Form name="diary" onSubmit={handleSubmit}>
       <Row>
         <Col xs={2}>
-          <Label>
-            {diary && diary.id === null ? "Add diary" : "Edit diary"}
-          </Label>
+          <Label>{diary.id === null ? "Add diary" : "Edit diary"}</Label>
         </Col>
         <Col xs={8}>
           <Field

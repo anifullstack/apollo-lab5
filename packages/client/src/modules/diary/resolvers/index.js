@@ -1,12 +1,12 @@
-import DIARY_QUERY_CLIENT from '../graphql/DiaryQuery.client.graphql';
+import DIARY_QUERY_CLIENT from "../graphql/DiaryQuery.client.graphql";
 
-const TYPE_NAME = 'DiaryState';
-const TYPE_NAME_DIARY = 'Diary';
+const TYPE_NAME = "DiaryState";
+const TYPE_NAME_DIARY = "Diary";
 
 const defaults = {
   diary: {
     id: null,
-    content: '',
+    content: "YYYYYYY",
     __typename: TYPE_NAME_DIARY
   },
   __typename: TYPE_NAME
@@ -15,7 +15,11 @@ const defaults = {
 const resolvers = {
   Query: {
     diaryState: (_, args, { cache }) => {
-      const { diary: { diary } } = cache.readQuery({ query: DIARY_QUERY_CLIENT });
+      const { diary: { diary } } = cache.readQuery({
+        query: DIARY_QUERY_CLIENT
+      });
+      console.log("client", "resolvers", "query", "diary", diary);
+
       return {
         diary: {
           ...diary,
@@ -27,6 +31,7 @@ const resolvers = {
   },
   Mutation: {
     onDiarySelect: async (_, { diary }, { cache }) => {
+      console.log("client", "resolvers", "mutation", "diary", diary);
       await cache.writeData({
         data: {
           diary: {
