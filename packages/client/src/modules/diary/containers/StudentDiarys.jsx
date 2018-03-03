@@ -155,14 +155,16 @@ const StudentDiarysWithApollo = compose(
   }),
   graphql(EDIT_DIARY, {
     props: ({ ownProps: { studentId }, mutate }) => ({
-      editDiary: (id, note) =>
+      editDiary: (id, subject, activity, note) =>
         mutate({
-          variables: { input: { id, studentId, note } },
+          variables: { input: { id, studentId, subject, activity, note } },
           optimisticResponse: {
             __typename: "Mutation",
             editDiary: {
               __typename: "Diary",
               id: id,
+              subject: subject,
+              activity: activity,
               note: note
             }
           }

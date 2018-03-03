@@ -49,12 +49,14 @@ export default class StudentDiarysView extends React.PureComponent {
       "render",
       "studentId",
       studentId,
+      "diarys",
+      diarys,
       "diary",
       diary
     );
     const columns = [
       {
-        title: "Subjct",
+        title: "Subject",
         dataIndex: "subject",
         key: "subject"
       },
@@ -78,7 +80,14 @@ export default class StudentDiarysView extends React.PureComponent {
               color="primary"
               size="sm"
               className="edit-diary"
-              onClick={() => this.handleEditDiary(record.id, record.note)}
+              onClick={() =>
+                this.handleEditDiary(
+                  record.id,
+                  record.subject,
+                  record.activity,
+                  record.note
+                )
+              }
             >
               Edit
             </Button>{" "}
