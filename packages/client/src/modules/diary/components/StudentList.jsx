@@ -1,8 +1,8 @@
 /*eslint-disable react/display-name*/
-import React from 'react';
-import PropTypes from 'prop-types';
-import { StyleSheet, FlatList, Text, View } from 'react-native';
-import { SwipeAction } from '../../common/components/native';
+import React from "react";
+import PropTypes from "prop-types";
+import { StyleSheet, FlatList, Text, View } from "react-native";
+import { SwipeAction } from "../../common/components/native";
 
 export default class StudentList extends React.PureComponent {
   static propTypes = {
@@ -17,17 +17,17 @@ export default class StudentList extends React.PureComponent {
 
   keyExtractor = item => item.node.id;
 
-  renderItem = ({ item: { node: { id, title } } }) => {
+  renderItem = ({ item: { node: { id, firstName, lastName } } }) => {
     const { deleteStudent, navigation } = this.props;
     return (
       <SwipeAction
-        onPress={() => navigation.navigate('StudentEdit', { id })}
+        onPress={() => navigation.navigate("StudentEdit", { id })}
         right={{
-          text: 'Delete',
+          text: "Delete",
           onPress: () => deleteStudent(id)
         }}
       >
-        {title}
+        {firstName} {lastName}
       </SwipeAction>
     );
   };

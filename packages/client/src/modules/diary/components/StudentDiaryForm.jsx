@@ -19,7 +19,7 @@ const validate = values => validateForm(values, diaryFormSchema);
 
 const StudentDiaryForm = ({ values, handleSubmit, diary }) => {
   let operation = "Add";
-  if (diary.id !== null) {
+  if (diary && diary.id !== null) {
     operation = "Edit";
   }
 

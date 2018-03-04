@@ -25,7 +25,13 @@ class StudentEdit extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (!nextProps.loading) {
       // Check if props have changed and, if necessary, stop the subscription
-      if (this.subscription && this.props.student.id !== nextProps.student.id) {
+      if (
+        this.subscription &&
+        this.props.student &&
+        this.nextprops &&
+        this.nextprops.student &&
+        this.props.student.id !== nextProps.student.id
+      ) {
         this.subscription();
         this.subscription = null;
       }

@@ -60,7 +60,7 @@ class StudentDiarys extends React.Component {
   static propTypes = {
     studentId: PropTypes.number.isRequired,
     diarys: PropTypes.array.isRequired,
-    diary: PropTypes.object.isRequired,
+    diary: PropTypes.object,
     onDiarySelect: PropTypes.func.isRequired,
     subscribeToMore: PropTypes.func.isRequired
   };
@@ -91,7 +91,7 @@ class StudentDiarys extends React.Component {
   }
 
   componentWillUnmount() {
-    this.props.onDiarySelect({ id: null, note: "" });
+    this.props.onDiarySelect({ id: null, subject: "", activity: "", note: "" });
 
     if (this.subscription) {
       // unsubscribe
@@ -146,6 +146,8 @@ const StudentDiarysWithApollo = compose(
             addDiary: {
               __typename: "Diary",
               id: null,
+              subject: subject,
+              activity: activity,
               note: note
             }
           },

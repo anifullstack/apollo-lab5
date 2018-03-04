@@ -21,6 +21,10 @@ export default class StudentDiarysView extends React.PureComponent {
 
   renderItem = ({ item: { id, subject, activity, note } }) => {
     const { diary, deleteDiary, onDiarySelect } = this.props;
+    const tempsubject = subject ? subject : "";
+    const tempactivity = activity ? activity : "";
+    const tempnote = note ? note : "";
+
     return (
       <SwipeAction
         onPress={() =>
@@ -37,7 +41,7 @@ export default class StudentDiarysView extends React.PureComponent {
             this.onDiaryDelete(diary, deleteDiary, onDiarySelect, id)
         }}
       >
-        {note}
+        {tempsubject}: {tempactivity}: {tempnote}
       </SwipeAction>
     );
   };
@@ -57,7 +61,7 @@ export default class StudentDiarysView extends React.PureComponent {
     editDiary,
     onDiarySelect
   ) => values => {
-    if (diary.id === null) {
+    if (!diary || diary.id === null) {
       addDiary(values.subject, values.activity, values.note, studentId);
     } else {
       editDiary(diary.id, values.subject, values.activity, values.note);
