@@ -1,0 +1,5 @@
+#import "./Diary.graphql"
+
+mutation addDiaryClient($diary: DiaryInfo!) {
+    onDiarySelect(diary: $diary) @client
+}

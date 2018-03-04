@@ -1,0 +1,5 @@
+mutation deleteDiary($input: DeleteDiaryInput!) {
+  deleteDiary(input: $input) {
+    id
+  }
+}

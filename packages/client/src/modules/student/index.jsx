@@ -6,8 +6,8 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { createTabBarIconWrapper } from '../common/components/native';
 
-import Student from './containers/Journal';
-import StudentEdit from './containers/JournalEdit';
+import Student from './containers/Student';
+import StudentEdit from './containers/StudentEdit';
 
 import resolvers from './resolvers';
 

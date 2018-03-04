@@ -1,0 +1,17 @@
+#import "./Student.graphql"
+
+query students($limit: Int!, $after: Int) {
+  students(limit: $limit, after: $after) {
+    totalCount
+    edges {
+      cursor
+      node {
+        ... StudentInfo
+      }
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+  }
+}

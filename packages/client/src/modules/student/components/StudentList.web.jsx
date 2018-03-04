@@ -56,7 +56,7 @@ export default class StudentList extends React.PureComponent {
           dataIndex: 'firstName',
           key: 'firstName',
           render: (text, record) => (
-            <Link className="student-link" to={`/journal/${record.id}`}>
+            <Link className="student-link" to={`/student/${record.id}`}>
               {text}
             </Link>
           )
@@ -66,27 +66,34 @@ export default class StudentList extends React.PureComponent {
           dataIndex: 'lastName',
           key: 'lastName',
           render: (text, record) => (
-            <Link className="student-link" to={`/journal/${record.id}`}>
+            <Link className="student-link" to={`/student/${record.id}`}>
               {text}
             </Link>
           )
         },
-          {
-              title: 'Birth Date',
-              dataIndex: 'birthDate',
-              key: 'birthDate',
-              render: (text, record) => (
-                  <Link className="student-link" to={`/journal/${record.id}`}>
-                      {text}
-                  </Link>
-              )
-          }
+        {
+          title: 'Actions',
+          key: 'actions',
+          width: 50,
+          render: (text, record) => (
+            <Button
+              color="primary"
+              size="sm"
+              className="delete-button"
+              onClick={() => this.handleDeleteStudent(record.id)}
+            >
+              Delete
+            </Button>
+          )
+        }
       ];
       return (
         <PageLayout>
           {this.renderMetaData()}
-          <h2>Student Journals</h2>
-
+          <h2>Students</h2>
+          <Link to="/student/0">
+            <Button color="primary">Add</Button>
+          </Link>
           <h1 />
           <Table dataSource={students.edges.map(({ node }) => node)} columns={columns} />
           <div>

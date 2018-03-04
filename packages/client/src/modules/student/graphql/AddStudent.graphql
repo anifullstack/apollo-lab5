@@ -1,0 +1,11 @@
+#import "./Student.graphql"
+#import "./Diary.graphql"
+
+mutation addStudent($input: AddStudentInput!) {
+  addStudent(input: $input) {
+    ... StudentInfo
+    diarys {
+      ... DiaryInfo
+    }
+  }
+}

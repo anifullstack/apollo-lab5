@@ -1,0 +1,6 @@
+#import "./Diary.graphql"
+query diaryState {
+    diary @client {
+        ...DiaryInfo
+    }
+}

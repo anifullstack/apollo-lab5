@@ -1,0 +1,7 @@
+#import "./Diary.graphql"
+
+mutation addDiary($input: AddDiaryInput!) {
+  addDiary(input: $input) {
+    ...DiaryInfo
+  }
+}

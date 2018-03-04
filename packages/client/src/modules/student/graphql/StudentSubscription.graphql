@@ -1,0 +1,7 @@
+#import "./Student.graphql"
+
+subscription onStudentUpdated($id: Int!) {
+  studentUpdated(id: $id) {
+    ... StudentInfo
+  }
+}

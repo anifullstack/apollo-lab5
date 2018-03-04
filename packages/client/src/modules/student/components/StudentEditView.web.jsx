@@ -63,8 +63,13 @@ const StudentEditView = ({
         <Link id="back-button" to="/students">
           Back
         </Link>
-        <h2>{studentObj.firstName} {studentObj.lastName}</h2>
-          {studentObj &&
+        <h2>{student ? "Edit" : "Create"} Student</h2>
+        <StudentForm
+          onSubmit={onSubmit(studentObj, addStudent, editStudent)}
+          student={student}
+        />
+        <br />
+        {studentObj &&
           studentObj.diarys && (
             <StudentDiarys
               studentId={Number(match.params.id)}

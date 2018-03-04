@@ -1,0 +1,7 @@
+#import "./Student.graphql"
+
+mutation editStudent($input: EditStudentInput!) {
+  editStudent(input: $input) {
+    ... StudentInfo
+  }
+}

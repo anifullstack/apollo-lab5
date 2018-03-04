@@ -1,0 +1,6 @@
+fragment DiaryInfo on Diary {
+  id
+  subject
+  activity
+  note
+}
