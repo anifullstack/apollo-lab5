@@ -27,7 +27,7 @@ const StudentDiaryForm = ({ values, handleSubmit, diary }) => {
       <Row>
         <Col xs={2}>
           <Label>
-            {diary && diary.id === null ? "Add diary" : "Edit diary"}
+            { (diary && diary.id !== null) ? "Edit diary" : "Add diary"}
           </Label>
         </Col>
         <Col xs={8}>
@@ -35,18 +35,22 @@ const StudentDiaryForm = ({ values, handleSubmit, diary }) => {
             name="subject"
             component={RenderField}
             type="text"
+            label="Subject"
             value={values.subject}
+
           />
           <Field
             name="activity"
             component={RenderField}
             type="text"
+            label="Activity"
             value={values.activity}
           />
           <Field
             name="note"
             component={RenderField}
             type="text"
+            label="Note"
             value={values.note}
           />
         </Col>
