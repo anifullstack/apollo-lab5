@@ -1,5 +1,5 @@
 export default {
-  name: "Apollo Starter Kit",
+  name: "Montessori Kids",
   logging: {
     debugSQL: true,
     apolloLogging: true
