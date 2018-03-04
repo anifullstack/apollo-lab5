@@ -1,0 +1,13 @@
+cp packages/server/src/modules/diary/*.* packages/server/src/modules/subject/.
+
+sed -i 's/Student/Activity/g' packages/server/src/modules/subject/*.*
+sed -i 's/student/activity/g' packages/server/src/modules/subject/*.*
+sed -i 's/STUDENT/ACTIVITY/g' packages/server/src/modules/subject/*.*
+
+sed -i 's/Diary/Activity/g' packages/server/src/modules/subject/*.*
+sed -i 's/diary/activity/g' packages/server/src/modules/subject/*.*
+sed -i 's/DIARY/ACTIVITY/g' packages/server/src/modules/subject/*.*
+
+
+sed -i 's/firstName/subject/g' packages/server/src/modules/subject/*.*
+sed -i 's/status/type/g' packages/server/src/modules/subject/*.*

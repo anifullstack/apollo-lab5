@@ -115,3 +115,30 @@ mutation addDiary($diaryInfo: AddDiaryInput! ){
   }
   
 }
+
+----------------
+
+//retrieve all activities
+{
+  activitys{
+    id
+    subject
+    name
+  }
+}
+
+{
+  subjects{
+    id
+    name
+    
+  }
+}
+
+query retrieveActivityById {
+  activityOne: activity(id:1){
+    id
+	subject
+    name
+  }
+}

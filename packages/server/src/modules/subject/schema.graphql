@@ -1,5 +1,80 @@
-extend type Query {}
+type Subject {
+  id: Int!
+  name: String!
+}
 
-extend type Mutation {}
+# Activity
+type Activity {
+  id: Int!
+  subject: String!
+  name: String!
+}
 
-extend type Subscription {}
+# Edges for Activitys
+type ActivityEdges {
+  node: Activity
+  cursor: Int
+}
+
+# PageInfo for Activitys
+type ActivityPageInfo {
+  endCursor: Int
+  hasNextPage: Boolean
+}
+
+# Activitys relay-style pagination query
+type Activitys {
+  totalCount: Int
+  edges: [ActivityEdges]
+  pageInfo: ActivityPageInfo
+}
+
+extend type Query {
+  # subjects
+  subjects: [Subject]
+  # Activitys pagination query
+  activitys: [Activity]
+  # Activity
+  activity(id: Int!): Activity
+}
+
+extend type Mutation {
+  # Create new activity
+  addActivity(input: AddActivityInput!): Activity
+  # Delete a activity
+  deleteActivity(id: Int!): Activity
+  # Edit a activity
+  editActivity(input: EditActivityInput!): Activity
+  # Add diary to activity
+  addDiary(input: AddDiaryInput!): Diary
+
+}
+
+# Input for addActivity Mutation
+input AddActivityInput {
+  subject: String!
+  activity: String!
+}
+
+# Input for editActivity Mutation
+input EditActivityInput {
+  id: Int!
+  subject: String!
+  name: String!
+}
+
+
+extend type Subscription {
+  # Subscription for when editing a activity
+  activityUpdated(id: Int!): Activity
+  # Subscription for activity list
+  activitysUpdated(endCursor: Int!): UpdateActivityPayload
+}
+
+# Payload for activitysUpdated Subscription
+type UpdateActivityPayload {
+  mutation: String!
+  id: Int!
+  node: Activity
+}
+
