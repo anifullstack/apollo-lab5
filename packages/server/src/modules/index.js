@@ -1,3 +1,4 @@
+import subject from './subject';
 import diary from './diary';
 import counter from './counter';
 import post from './post';
@@ -12,4 +13,4 @@ import './debug';
 
 import Feature from './connector';
 
-export default new Feature(diary, counter, post, upload, user, subscription, contact, mailer, graphqlTypes, apolloEngine);
+export default new Feature(subject, diary, counter, post, upload, user, subscription, contact, mailer, graphqlTypes, apolloEngine);

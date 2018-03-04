@@ -1,3 +1,4 @@
+import subject from './subject';
 import student from "./student";
 import diary from "./diary";
 import counter from "./counter";
@@ -11,4 +12,4 @@ import "./favicon";
 
 import Feature from "./connector";
 
-export default new Feature(diary, student, post, user);
+export default new Feature(subject, diary, student, post, user);
