@@ -1,0 +1,4 @@
+fragment SubjectInfo on Subject {
+  id
+  name
+}

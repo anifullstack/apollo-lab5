@@ -1,0 +1,8 @@
+#import "./Subject.graphql"
+
+query subjects() {
+  subjects() {
+    id,
+    name
+  }
+}
