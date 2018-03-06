@@ -9,7 +9,7 @@ export default class Student {
     }
 
     return knex
-      .select("id", "firstName", "lastName")
+      .select("id", "firstName", "lastName", "birthDate")
       .from("student")
       .whereRaw(where)
       .orderBy("id", "desc")
@@ -48,15 +48,15 @@ export default class Student {
 
   student(id) {
     return knex
-      .select("id", "firstName", "lastName")
+      .select("id", "firstName", "lastName", "birthDate")
       .from("Student")
       .where("id", "=", id)
       .first();
   }
 
-  addStudent({ firstName, lastName }) {
+  addStudent({ firstName, lastName, birthDate }) {
     return knex("Student")
-      .insert({ firstName, lastName })
+      .insert({ firstName, lastName, birthDate })
       .returning("id");
   }
 
@@ -66,7 +66,7 @@ export default class Student {
       .del();
   }
 
-  editStudent({ id, firstName, lastName }) {
+  editStudent({ id, firstName, lastName, birthDate }) {
     return knex("Student")
       .where("id", "=", id)
       .update({

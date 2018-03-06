@@ -7,12 +7,15 @@ export async function seed(knex, Promise) {
   await truncateTables(knex, Promise, ["student", "comment"]);
 
   await Promise.all(
-    [...Array(20).keys()].map(async ii => {
+    [...Array(30).keys()].map(async ii => {
       const student = await knex("student")
         .returning("id")
         .insert({
           firstName: `${casual.first_name}`,
-          lastName: `${casual.last_name}`
+          lastName: `${casual.last_name}`,
+          birthDate: moment()
+            .subtract(casual.integer(1095, 2195), "days")
+            .valueOf()
         });
 
       const randomSubject = casual.random_element(subjects);
@@ -24,13 +27,7 @@ export async function seed(knex, Promise) {
           );
           const delta = casual.integer(1, 60);
           const randomActivityDate = moment().subtract(delta, "days");
-          console.log(
-            "server",
-            "seed",
-            "student",
-            "randomActivityDate",
-            randomActivityDate
-          );
+
           return knex("diary")
             .returning("id")
             .insert({

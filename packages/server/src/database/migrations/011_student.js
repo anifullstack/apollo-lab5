@@ -6,6 +6,7 @@ exports.up = function(knex, Promise) {
         table.string("title");
         table.string("firstName");
         table.string("lastName");
+        table.number("birthDate");
 
         table.string("content");
         table.timestamps(false, true);

@@ -3,6 +3,7 @@ type Student {
   id: Int!
   firstName: String!
   lastName: String!
+  birthDate: String!
   diarys: [Diary]
 }
 
@@ -61,6 +62,7 @@ extend type Mutation {
 input AddStudentInput {
   firstName: String!
   lastName: String!
+  birthDate: Int!
 }
 
 # Input for editStudent Mutation
@@ -68,12 +70,14 @@ input EditStudentInput {
   id: Int!
   firstName: String!
   lastName: String!
+  birthDate: Int!
 }
 
 # Input for addDiary Mutation
 input AddDiaryInput {
   subject: String
   activity: String
+  activityDate: Int
   status: String
   note: String
   # Needed for diaryUpdated Subscription filter
@@ -92,6 +96,7 @@ input EditDiaryInput {
   id: Int!
   subject: String
   activity: String
+  activityDate: Int
   status: String
   note: String!
   # Needed for diaryUpdated Subscription filter
