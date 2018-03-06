@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withFormik } from "formik";
 import Field from "../../../utils/FieldAdapter";
+
 import {
   Form,
   RenderField,
@@ -10,6 +11,7 @@ import {
   Label,
   Button
 } from "../../common/components/web";
+//import { Typeahead } from "react-bootstrap-typeahead";
 import { required, validateForm } from "../../../../../common/validation";
 
 const diaryFormSchema = {
@@ -17,6 +19,12 @@ const diaryFormSchema = {
   activity: [required],
   note: [required]
 };
+
+const options = [
+  { name: "Math" },
+  { name: "Practical Life" },
+  { name: "Language" }
+];
 
 const validate = values => validateForm(values, diaryFormSchema);
 
@@ -27,7 +35,7 @@ const StudentDiaryForm = ({ values, handleSubmit, diary }) => {
       <Row>
         <Col xs={2}>
           <Label>
-            { (diary && diary.id !== null) ? "Edit diary" : "Add diary"}
+            {diary && diary.id !== null ? "Edit diary" : "Add diary"}
           </Label>
         </Col>
         <Col xs={8}>
@@ -37,7 +45,6 @@ const StudentDiaryForm = ({ values, handleSubmit, diary }) => {
             type="text"
             label="Subject"
             value={values.subject}
-
           />
           <Field
             name="activity"

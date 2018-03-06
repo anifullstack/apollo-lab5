@@ -18,9 +18,17 @@ export default class Student {
 
   async getDiarysForStudentIds(StudentIds) {
     const res = await knex
-      .select("id", "subject", "activity", "note", "Student_id AS StudentId")
+      .select(
+        "id",
+        "subject",
+        "activity",
+        "activityDate",
+        "note",
+        "Student_id AS StudentId"
+      )
       .from("diary")
-      .whereIn("Student_id", StudentIds);
+      .whereIn("Student_id", StudentIds)
+      .orderBy("activityDate", "desc");
 
     return orderedFor(res, StudentIds, "StudentId", false);
   }
@@ -67,7 +75,7 @@ export default class Student {
       });
   }
 
-  addDiary({ subject, activity, note, studentId }) {
+  addDiary({ subject, activity, activityDate, note, studentId }) {
     return knex("Diary")
       .insert({ subject, activity, note, student_id: studentId })
       .returning("id");
@@ -75,7 +83,7 @@ export default class Student {
 
   getDiary(id) {
     return knex
-      .select("id", "subject", "activity", "note")
+      .select("id", "subject", "activity", "activityDate", "note")
       .from("Diary")
       .where("id", "=", id)
       .first();
@@ -87,12 +95,13 @@ export default class Student {
       .del();
   }
 
-  editDiary({ id, subject, activity, note }) {
+  editDiary({ id, subject, activity, activityDate, note }) {
     return knex("Diary")
       .where("id", "=", id)
       .update({
         subject: subject,
         activity: activity,
+        activityDate: activityDate,
         note: note
       });
   }

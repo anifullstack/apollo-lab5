@@ -18,7 +18,7 @@ exports.up = function(knex, Promise) {
           .references("id")
           .inTable("student")
           .onDelete("CASCADE");
-        table.date("activityDate");
+        table.integer("activityDate");
         table.string("subject");
         table.string("activity");
         table.string("status");

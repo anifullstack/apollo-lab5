@@ -1,4 +1,5 @@
 import casual from "casual";
+import moment from "moment";
 import { truncateTables } from "../../sql/helpers";
 import subjects from "./../lookup/subjects";
 
@@ -17,9 +18,18 @@ export async function seed(knex, Promise) {
       const randomSubject = casual.random_element(subjects);
 
       await Promise.all(
-        [...Array(2).keys()].map(async jj => {
+        [...Array(3).keys()].map(async jj => {
           const randomActivity = casual.random_element(
             randomSubject.activities
+          );
+          const delta = casual.integer(1, 60);
+          const randomActivityDate = moment().subtract(delta, "days");
+          console.log(
+            "server",
+            "seed",
+            "student",
+            "randomActivityDate",
+            randomActivityDate
           );
           return knex("diary")
             .returning("id")
@@ -27,6 +37,7 @@ export async function seed(knex, Promise) {
               student_id: student[0],
               subject: randomSubject.name,
               activity: randomActivity.name,
+              activityDate: randomActivityDate.valueOf(),
               status: `status ${jj + 1} for student ${student[0]}`,
               note: `diary note ${jj + 1} for student ${student[0]}`
             });

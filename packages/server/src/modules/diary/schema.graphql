@@ -11,6 +11,7 @@ type Diary {
   id: Int!
   subject: String
   activity: String
+  activityDate: String
   status: String
   note: String
 }

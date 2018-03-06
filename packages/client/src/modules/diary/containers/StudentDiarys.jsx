@@ -13,15 +13,7 @@ import ADD_DIARY_CLIENT from "../graphql/AddDiary.client.graphql";
 import DIARY_QUERY_CLIENT from "../graphql/DiaryQuery.client.graphql";
 
 function AddDiary(prev, node) {
-  console.log(
-    "Client",
-    "StudentDiarys",
-    "AddDiary",
-    "prev",
-    prev,
-    "node",
-    node
-  );
+  //console.log("Client", "SD", "AddDiary", "prev", prev, "node", node);
   // ignore if duplicate
   if (
     node.id !== null &&
