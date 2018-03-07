@@ -12,6 +12,7 @@ import { required, validateForm } from "../../../../../common/validation";
 const diaryFormSchema = {
   subject: [required],
   activity: [required],
+  activityDate: [required],
   note: [required]
 };
 
@@ -25,6 +26,12 @@ const StudentDiaryForm = ({ values, handleSubmit, diary }) => {
 
   return (
     <FormView>
+      <Field
+        name="activityDate"
+        component={RenderField}
+        type="text"
+        value={values.activityDate}
+      />
       <Field
         name="subject"
         component={RenderField}
@@ -62,12 +69,13 @@ const StudentDiaryFormWithFormik = withFormik({
   mapPropsToValues: props => ({
     subject: props.diary && props.diary.subject,
     activity: props.diary && props.diary.activity,
+    activityDate: props.diary && props.diary.activityDate,
     note: props.diary && props.diary.note
   }),
   validate: values => validate(values),
   handleSubmit: async (values, { resetForm, props: { onSubmit } }) => {
     await onSubmit(values);
-    resetForm({ subject: "", activity: "", note: "" });
+    resetForm({ subject: "", activity: "", activityDate: "", note: "" });
   },
   displayName: "DiaryForm", // helps with React DevTools
   enableReinitialize: true

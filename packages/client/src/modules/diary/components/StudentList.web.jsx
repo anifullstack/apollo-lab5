@@ -1,9 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Helmet from 'react-helmet';
-import { Link } from 'react-router-dom';
-import { PageLayout, Table, Button } from '../../common/components/web';
-import settings from '../../../../../../settings';
+import React from "react";
+import PropTypes from "prop-types";
+import Helmet from "react-helmet";
+import { Link } from "react-router-dom";
+import moment from "moment";
+import { PageLayout, Table, Button } from "../../common/components/web";
+import settings from "../../../../../../settings";
 
 export default class StudentList extends React.PureComponent {
   static propTypes = {
@@ -33,7 +34,7 @@ export default class StudentList extends React.PureComponent {
       title={`${settings.app.name} - Students list`}
       meta={[
         {
-          name: 'description',
+          name: "description",
           content: `${settings.app.name} - List of all students example page`
         }
       ]}
@@ -50,11 +51,18 @@ export default class StudentList extends React.PureComponent {
         </PageLayout>
       );
     } else {
+      console.log(
+        "Client",
+        "StudentListWeb",
+        "students",
+        JSON.stringify(students)
+      );
+
       const columns = [
         {
-          title: 'FirstName',
-          dataIndex: 'firstName',
-          key: 'firstName',
+          title: "FirstName",
+          dataIndex: "firstName",
+          key: "firstName",
           render: (text, record) => (
             <Link className="student-link" to={`/journal/${record.id}`}>
               {text}
@@ -62,25 +70,25 @@ export default class StudentList extends React.PureComponent {
           )
         },
         {
-          title: 'Last Name',
-          dataIndex: 'lastName',
-          key: 'lastName',
+          title: "Last Name",
+          dataIndex: "lastName",
+          key: "lastName",
           render: (text, record) => (
             <Link className="student-link" to={`/journal/${record.id}`}>
               {text}
             </Link>
           )
         },
-          {
-              title: 'Birth Date',
-              dataIndex: 'birthDate',
-              key: 'birthDate',
-              render: (text, record) => (
-                  <Link className="student-link" to={`/journal/${record.id}`}>
-                      {text}
-                  </Link>
-              )
-          }
+        {
+          title: "Birth Date",
+          dataIndex: "birthDate",
+          key: "birthDate",
+          render: (text, record) => (
+            <Link className="student-link" to={`/journal/${record.id}`}>
+              {moment(parseInt(text)).format("MMM Do, YYYY")}
+            </Link>
+          )
+        }
       ];
       return (
         <PageLayout>
@@ -88,7 +96,10 @@ export default class StudentList extends React.PureComponent {
           <h2>Student Journals</h2>
 
           <h1 />
-          <Table dataSource={students.edges.map(({ node }) => node)} columns={columns} />
+          <Table
+            dataSource={students.edges.map(({ node }) => node)}
+            columns={columns}
+          />
           <div>
             <small>
               ({students.edges.length} / {students.totalCount})

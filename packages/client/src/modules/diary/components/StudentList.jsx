@@ -17,7 +17,7 @@ export default class StudentList extends React.PureComponent {
 
   keyExtractor = item => item.node.id;
 
-  renderItem = ({ item: { node: { id, firstName, lastName } } }) => {
+  renderItem = ({ item: { node: { id, firstName, lastName, birthDate } } }) => {
     const { deleteStudent, navigation } = this.props;
     return (
       <SwipeAction

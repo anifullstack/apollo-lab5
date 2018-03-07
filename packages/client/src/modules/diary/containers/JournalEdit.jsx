@@ -85,10 +85,16 @@ export default compose(
   }),
   graphql(ADD_STUDENT, {
     props: ({ ownProps: { history, navigation }, mutate }) => ({
-      addStudent: async (firstName, lastName) => {
-        console.log("StudentEdit", "ADD_STUDENT", firstName, lastName);
+      addStudent: async (firstName, lastName, birthDate) => {
+        console.log(
+          "StudentEdit",
+          "ADD_STUDENT",
+          firstName,
+          lastName,
+          birthDate
+        );
         let studentData = await mutate({
-          variables: { input: { firstName, lastName } },
+          variables: { input: { firstName, lastName, birthDate } },
           optimisticResponse: {
             __typename: "Mutation",
             addStudent: {
@@ -96,6 +102,7 @@ export default compose(
               id: null,
               firstName: firstName,
               lastName: lastName,
+              birthDate: birthDate,
               diarys: []
             }
           },
@@ -121,9 +128,9 @@ export default compose(
   }),
   graphql(EDIT_STUDENT, {
     props: ({ ownProps: { history, navigation }, mutate }) => ({
-      editStudent: async (id, firstName, lastName) => {
+      editStudent: async (id, firstName, lastName, birthDate) => {
         await mutate({
-          variables: { input: { id, firstName, lastName } }
+          variables: { input: { id, firstName, lastName, birthDate } }
         });
         if (history) {
           return history.push("/students");

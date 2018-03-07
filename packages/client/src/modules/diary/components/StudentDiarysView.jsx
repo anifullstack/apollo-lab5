@@ -19,12 +19,12 @@ export default class StudentDiarysView extends React.PureComponent {
 
   keyExtractor = item => item.id;
 
-  renderItem = ({ item: { id, subject, activity, note } }) => {
+  renderItem = ({ item: { id, subject, activity, activityDate, note } }) => {
     const { diary, deleteDiary, onDiarySelect } = this.props;
     const tempsubject = subject ? subject : "";
     const tempactivity = activity ? activity : "";
     const tempnote = note ? note : "";
-
+    const tempActivityDate = activityDate ? activityDate : "";
     return (
       <SwipeAction
         onPress={() =>
@@ -32,6 +32,7 @@ export default class StudentDiarysView extends React.PureComponent {
             id: id,
             subject: subject,
             activity: activity,
+            activityDate: activityDate,
             note: note
           })
         }
@@ -48,7 +49,13 @@ export default class StudentDiarysView extends React.PureComponent {
 
   onDiaryDelete = (diary, deleteDiary, onDiarySelect, id) => {
     if (diary.id === id) {
-      onDiarySelect({ id: null, subject: "", activity: "", note: "" });
+      onDiarySelect({
+        id: null,
+        subject: "",
+        activity: "",
+        activityDate: "",
+        note: ""
+      });
     }
 
     deleteDiary(id);
@@ -62,12 +69,30 @@ export default class StudentDiarysView extends React.PureComponent {
     onDiarySelect
   ) => values => {
     if (!diary || diary.id === null) {
-      addDiary(values.subject, values.activity, values.note, studentId);
+      addDiary(
+        values.subject,
+        values.activity,
+        values.activityDate,
+        values.note,
+        studentId
+      );
     } else {
-      editDiary(diary.id, values.subject, values.activity, values.note);
+      editDiary(
+        diary.id,
+        values.subject,
+        values.activity,
+        values.activityDate,
+        values.note
+      );
     }
 
-    onDiarySelect({ id: null, subject: "", activity: "", note: "" });
+    onDiarySelect({
+      id: null,
+      subject: "",
+      activity: "",
+      activityDate: "",
+      note: ""
+    });
     Keyboard.dismiss();
   };
 

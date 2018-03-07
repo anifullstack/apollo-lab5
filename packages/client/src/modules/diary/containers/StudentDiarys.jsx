@@ -83,7 +83,13 @@ class StudentDiarys extends React.Component {
   }
 
   componentWillUnmount() {
-    this.props.onDiarySelect({ id: null, subject: "", activity: "", note: "" });
+    this.props.onDiarySelect({
+      id: null,
+      subject: "",
+      activity: "",
+      activityDate: "",
+      note: ""
+    });
 
     if (this.subscription) {
       // unsubscribe
@@ -130,9 +136,11 @@ class StudentDiarys extends React.Component {
 const StudentDiarysWithApollo = compose(
   graphql(ADD_DIARY, {
     props: ({ mutate }) => ({
-      addDiary: (subject, activity, note, studentId) =>
+      addDiary: (subject, activity, activityDate, note, studentId) =>
         mutate({
-          variables: { input: { subject, activity, note, studentId } },
+          variables: {
+            input: { subject, activity, activityDate, note, studentId }
+          },
           optimisticResponse: {
             __typename: "Mutation",
             addDiary: {
@@ -140,6 +148,7 @@ const StudentDiarysWithApollo = compose(
               id: null,
               subject: subject,
               activity: activity,
+              activityDate: activityDate,
               note: note
             }
           },
@@ -158,9 +167,11 @@ const StudentDiarysWithApollo = compose(
   }),
   graphql(EDIT_DIARY, {
     props: ({ ownProps: { studentId }, mutate }) => ({
-      editDiary: (id, subject, activity, note) =>
+      editDiary: (id, subject, activity, activityDate, note) =>
         mutate({
-          variables: { input: { id, studentId, subject, activity, note } },
+          variables: {
+            input: { id, studentId, subject, activity, activityDate, note }
+          },
           optimisticResponse: {
             __typename: "Mutation",
             editDiary: {
@@ -168,6 +179,7 @@ const StudentDiarysWithApollo = compose(
               id: id,
               subject: subject,
               activity: activity,
+              activityDate: activityDate,
               note: note
             }
           }

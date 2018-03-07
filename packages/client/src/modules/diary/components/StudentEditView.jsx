@@ -7,9 +7,14 @@ import StudentDiarys from "../containers/StudentDiarys";
 
 const onSubmit = (student, addStudent, editStudent) => values => {
   if (student) {
-    editStudent(student.id, values.firstName, values.lastName);
+    editStudent(
+      student.id,
+      values.firstName,
+      values.lastName,
+      values.birthDate
+    );
   } else {
-    addStudent(values.firstName, values.lastName);
+    addStudent(values.firstName, values.lastName, values.birthDate);
   }
 };
 

@@ -10,9 +10,14 @@ import settings from "../../../../../../settings";
 
 const onSubmit = (student, addStudent, editStudent) => values => {
   if (student) {
-    editStudent(student.id, values.firstName, values.lastName);
+    editStudent(
+      student.id,
+      values.firstName,
+      values.lastName,
+      values.birthDate
+    );
   } else {
-    addStudent(values.firstName, values.lastName);
+    addStudent(values.firstName, values.lastName, values.birthDate);
   }
 };
 
@@ -33,11 +38,11 @@ const StudentEditView = ({
 
   const renderMetaData = () => (
     <Helmet
-      firstName={`${settings.app.name} - Edit student`}
+      title={`${settings.app.name} - Edit Journal`}
       meta={[
         {
           name: "description",
-          lastName: "Edit student example page"
+          title: "Edit Journal"
         }
       ]}
     />
@@ -63,8 +68,10 @@ const StudentEditView = ({
         <Link id="back-button" to="/students">
           Back
         </Link>
-        <h2>{studentObj.firstName} {studentObj.lastName}</h2>
-          {studentObj &&
+        <h2>
+          {studentObj.firstName} {studentObj.lastName}
+        </h2>
+        {studentObj &&
           studentObj.diarys && (
             <StudentDiarys
               studentId={Number(match.params.id)}

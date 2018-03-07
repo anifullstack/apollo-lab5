@@ -40,6 +40,13 @@ const StudentDiaryForm = ({ values, handleSubmit, diary }) => {
         </Col>
         <Col xs={8}>
           <Field
+            name="activityDate"
+            component={RenderField}
+            type="text"
+            label="activityDate"
+            value={values.subject}
+          />
+          <Field
             name="subject"
             component={RenderField}
             type="text"
@@ -85,11 +92,12 @@ const StudentDiaryFormWithFormik = withFormik({
   mapPropsToValues: props => ({
     subject: props.diary && props.diary.subject,
     activity: props.diary && props.diary.activity,
+    activityDate: props.diary && props.diary.activityDate,
     note: props.diary && props.diary.note
   }),
   async handleSubmit(values, { resetForm, props: { onSubmit } }) {
     await onSubmit(values);
-    resetForm({ subject: "", activity: "", note: "" });
+    resetForm({ subject: "", activity: "", activityDate: "", note: "" });
   },
   validate: values => validate(values),
   displayName: "DiaryForm", // helps with React DevTools,

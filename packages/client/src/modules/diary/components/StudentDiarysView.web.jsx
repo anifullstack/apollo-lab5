@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import moment from "moment";
 import { Table, Button } from "../../common/components/web";
 import StudentDiaryForm from "./StudentDiaryForm";
 
@@ -15,16 +16,22 @@ export default class StudentDiarysView extends React.PureComponent {
     onDiarySelect: PropTypes.func.isRequired
   };
 
-  handleEditDiary = (id, subject, activity, note) => {
+  handleEditDiary = (id, subject, activity, activityDate, note) => {
     const { onDiarySelect } = this.props;
-    onDiarySelect({ id, subject, activity, note });
+    onDiarySelect({ id, subject, activity, activityDate, note });
   };
 
   handleDeleteDiary = id => {
     const { diary, onDiarySelect, deleteDiary } = this.props;
 
     if (diary.id === id) {
-      onDiarySelect({ id: null, subject: "", activity: "", note: "" });
+      onDiarySelect({
+        id: null,
+        subject: "",
+        activity: "",
+        activityDate: "",
+        note: ""
+      });
     }
 
     deleteDiary(id);
@@ -34,12 +41,30 @@ export default class StudentDiarysView extends React.PureComponent {
     const { diary, studentId, addDiary, editDiary, onDiarySelect } = this.props;
 
     if (diary.id === null) {
-      addDiary(values.subject, values.activity, values.note, studentId);
+      addDiary(
+        values.subject,
+        values.activity,
+        values.activityDate,
+        values.note,
+        studentId
+      );
     } else {
-      editDiary(diary.id, values.subject, values.activity, values.note);
+      editDiary(
+        diary.id,
+        values.subject,
+        values.activity,
+        values.activityDate,
+        values.note
+      );
     }
 
-    onDiarySelect({ id: null, subject: "", activity: "", note: "" });
+    onDiarySelect({
+      id: null,
+      subject: "",
+      activity: "",
+      activityDate: "",
+      note: ""
+    });
   };
 
   render() {
@@ -54,14 +79,33 @@ export default class StudentDiarysView extends React.PureComponent {
       "diary",
       diary
     );
+    const updatedDiarys = diarys.map(d => {
+      const tempActivityDate = moment(parseInt(d.activityDate)).format(
+        "MMM Do"
+      );
+      return {
+        ...d,
+        activityDate: tempActivityDate
+      };
+    });
+    console.log(
+      "StudentDiarysViewWeb",
+      "updatedDiarys",
+      JSON.stringify(updatedDiarys)
+    );
     const columns = [
+      {
+        title: "Date",
+        dataIndex: "activityDate",
+        key: "activityDate"
+      },
       {
         title: "Subject",
         dataIndex: "subject",
         key: "subject"
       },
       {
-        title: "activity",
+        title: "Activity",
         dataIndex: "activity",
         key: "activity"
       },
@@ -85,6 +129,7 @@ export default class StudentDiarysView extends React.PureComponent {
                   record.id,
                   record.subject,
                   record.activity,
+                  record.activityDate,
                   record.note
                 )
               }
@@ -114,7 +159,7 @@ export default class StudentDiarysView extends React.PureComponent {
           diary={diary}
         />
         <h1 />
-        <Table dataSource={diarys} columns={columns} />
+        <Table dataSource={updatedDiarys} columns={columns} />
       </div>
     );
   }
